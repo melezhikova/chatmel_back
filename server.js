@@ -90,20 +90,6 @@ const port = process.env.PORT || 7000;
 const server = http.createServer(app.callback())
 
 
-//const wsServer = new WS.Server({ server });
-
-// wsServer.on('connection', (ws, req) => {
-//   ws.on('message', msg => {
-//     // console.log('msg');
-//     // ws.send('response');
-//     [...wsServer.clients]
-//     .filter(o => o.readyState === WS.OPEN)
-//     .forEach(o => o.send('some message'));
-//   });
-
-//   ws.send('welcome');
-// });
-
 server.listen(port, (error) => {
   if (error) {
     console.log('Error occured:', error);
