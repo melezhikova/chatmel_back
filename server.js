@@ -50,6 +50,14 @@ app.use(async (ctx) => {
       break;
     case 'getAllSaved': ctx.response.body = chats.getAllSaved();
       break;
+    case 'getAllMedia': ctx.response.body = chats.getAllMedia();
+      break;
+    case 'getAllImages': ctx.response.body = chats.getAllImages();
+      break;
+    case 'getAllVideo': ctx.response.body = chats.getAllVideo();
+      break;
+    case 'getAllAudio': ctx.response.body = chats.getAllAudio();
+      break;
     case 'addMessage': ctx.response.body = chats.addMessage(object);
       break;
     case 'deleteMessage': ctx.response.body = chats.deleteMessage(object);
@@ -88,7 +96,19 @@ app.use(router.routes()).use(router.allowedMethods());
 
 const port = process.env.PORT || 7000;
 const server = http.createServer(app.callback())
+const wsServer = new WS.Server({ server });
 
+wsServer.on('connection', (ws, req) => {
+  ws.on('message', msg => {
+    // console.log('msg');
+    // ws.send('response');
+    [...wsServer.clients]
+    .filter(o => o.readyState === WS.OPEN)
+    .forEach(o => o.send('some message'));
+  });
+
+  ws.send('welcome');
+});
 
 server.listen(port, (error) => {
   if (error) {
